@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model data_kopi {
+  id            Int        @id @default(autoincrement())
+  nama_kopi     String     @db.VarChar(100)
+  id_jenis_kopi Int
+  harga_kopi    Decimal    @db.Decimal(10, 0)
+  deskripsi     String     @db.Text
+  gambar        String     @db.VarChar(100)
+  jenis_kopi    jenis_kopi @relation(fields: [id_jenis_kopi], references: [id], onUpdate: Restrict, map: "data_kopi_ibfk_1")
+
+  @@index([id_jenis_kopi], map: "id_jenis_kopi")
+}
+
+model jenis_kopi {
+  id         Int         @id @default(autoincrement())
+  jenis_kopi String      @db.VarChar(50)
+  keterangan String      @db.Text
+  data_kopi  data_kopi[]
+}
