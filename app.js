@@ -1,11 +1,14 @@
 const express = require('express')
 const app = express()
 const path = require('path')
+const cors = require('cors')
 
 app.use(
     '/img',
     express.static(path.join(__dirname, "public/img"))
 )
+
+app.use(cors())
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
