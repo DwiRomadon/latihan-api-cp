@@ -4,6 +4,8 @@ const prisma = new PrismaClient()
 exports.create = async (req, res) => {
     try {
         req.body.id_jenis_kopi = Number(req.body.id_jenis_kopi)
+        req.body.gambar = req.file.filename
+        console.log(req.body)
         const input = await prisma.data_kopi.create({
             data: req.body
         })
@@ -74,6 +76,11 @@ exports.findById = async (req, res) => {
 
 exports.updateData = async (req, res) => {
     try {
+        req.body.id_jenis_kopi = Number(req.body.id_jenis_kopi)
+        if (req.file) {
+            req.body.gambar = req.file.filename
+        }
+
         const update = await prisma.data_kopi.update({
             where: {
                 id: Number(req.params.id)
